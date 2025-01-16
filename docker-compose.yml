@@ -1,0 +1,89 @@
+version: "3.8"
+services:
+  apigateway:
+    image: apigateway:latest
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      - identityservice
+      - favoriteservice
+      - musicservice
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - musicapp-network
+
+  identityservice:
+    image: identityservice:latest
+    build:
+      context: .
+      dockerfile: IdentityService/Dockerfile
+    ports:
+      - "5002:5002"
+    volumes:
+      - profile-pictures:/app/profile_pictures
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - musicapp-network
+
+  favoriteservice:
+    image: favoriteservice:latest
+    build:
+      context: .
+      dockerfile: FavoritesService/Dockerfile
+    ports:
+      - "5003:5003"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      REDIS_CONNECTION: redis:6379
+    depends_on:
+      - redis
+    networks:
+      - musicapp-network
+
+  musicservice:
+    image: musicservice:latest
+    build:
+      context: .
+      dockerfile: MusicService/Dockerfile
+    ports:
+      - "5004:5004"
+    volumes:
+      - music-files:/app/music_files
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - musicapp-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - musicapp-network
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - musicapp-network
+
+volumes:
+  profile-pictures:
+    driver: local
+  music-files:
+    driver: local
+
+networks:
+  musicapp-network:
+    driver: bridge
