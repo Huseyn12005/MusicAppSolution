@@ -6,11 +6,11 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "identityservice",
-          "Port": 5001
+          "Port": 5002
         }
       ],
       "UpstreamPathTemplate": "/identity/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
     {
       "DownstreamPathTemplate": "/api/music/{everything}",
@@ -18,26 +18,26 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "musicservice",
-          "Port": 5002
+          "Port": 5004
         }
       ],
       "UpstreamPathTemplate": "/music/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
     {
       "DownstreamPathTemplate": "/api/favorites/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "favoritesservice",
+          "Host": "favoriteservice",
           "Port": 5003
         }
       ],
       "UpstreamPathTemplate": "/favorites/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "http://localhost:5001"
   }
 }
