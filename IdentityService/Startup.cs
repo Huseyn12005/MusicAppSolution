@@ -20,7 +20,7 @@ namespace IdentityService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase("IdentityDb"));
+                options.UseNpgsql(Configuration.GetConnectionString("Default")));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
@@ -45,6 +45,12 @@ namespace IdentityService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate();
             }
 
             app.UseRouting();

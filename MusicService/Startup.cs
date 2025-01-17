@@ -16,8 +16,9 @@ namespace MusicService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Replace in-memory database with PostgreSQL
             services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase("MusicDb"));
+                options.UseNpgsql(Configuration.GetConnectionString("Default")));
 
             services.AddScoped<IMusicRepository, MusicRepository>();
             services.AddScoped<IPlaylistRepository, PlaylistRepository>();
@@ -39,6 +40,12 @@ namespace MusicService
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicService API V1");
             });
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate(); // Apply migrations
+            }
 
             app.UseRouting();
 
