@@ -11,7 +11,7 @@ export default defineConfig({
         proxy: {
             '/api': {
                 target: process.env.NODE_ENV === 'production'
-                    ? 'http://apigateway:5001'
+                    ? '```````````````````````````http://apigateway:8080'
                     : 'http://localhost:5001',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),

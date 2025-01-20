@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "identityservice",
-          "Port": 5002
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/identity/{everything}",
@@ -18,7 +18,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "musicservice",
-          "Port": 5004
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/music/{everything}",
@@ -30,7 +30,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "favoriteservice",
-          "Port": 5003
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/favorites/{everything}",

@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ApiGateway/Dockerfile
     ports:
-      - "5001:5001"
+      - "5001:8080"
     depends_on:
       - identityservice
       - favoriteservice
@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: IdentityService/Dockerfile
     ports:
-      - "5002:5002"
+      - "8444:8080"
     volumes:
       - profile-pictures:/app/profile_pictures
     environment:
@@ -36,7 +36,7 @@ services:
       context: .
       dockerfile: FavoritesService/Dockerfile
     ports:
-      - "5003:5003"
+      - "8446:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       REDIS_CONNECTION: redis:6379
@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: MusicService/Dockerfile
     ports:
-      - "5004:5004"
+      - "8445:8080"
     volumes:
       - music-files:/app/music_files
     environment:
